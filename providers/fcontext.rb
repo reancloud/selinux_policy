@@ -65,7 +65,7 @@ action :add do
     command "/usr/sbin/semanage fcontext -a #{semanage_options(new_resource.file_type)} -t #{new_resource.secontext} '#{new_resource.file_spec}'"
     not_if fcontext_defined(new_resource.file_spec, new_resource.file_type)
     only_if { use_selinux }
-    notifies :relabel, new_resource, :immediate
+    notifies :relabel, new_resource, :immediate if new_resource.relabel
   end
 end
 
@@ -75,7 +75,7 @@ action :delete do
     command "/usr/sbin/semanage fcontext #{semanage_options(new_resource.file_type)} -d '#{new_resource.file_spec}'"
     only_if fcontext_defined(new_resource.file_spec, new_resource.file_type, new_resource.secontext)
     only_if { use_selinux }
-    notifies :relabel, new_resource, :immediate
+    notifies :relabel, new_resource, :immediate if new_resource.relabel
   end
 end
 
@@ -85,7 +85,7 @@ action :modify do
     only_if { use_selinux }
     only_if fcontext_defined(new_resource.file_spec, new_resource.file_type)
     not_if  fcontext_defined(new_resource.file_spec, new_resource.file_type, new_resource.secontext)
-    notifies :relabel, new_resource, :immediate
+    notifies :relabel, new_resource, :immediate if new_resource.relabel
   end
 end
 

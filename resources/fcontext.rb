@@ -6,3 +6,4 @@ default_action :addormodify
 attribute :file_spec, kind_of: String, name_attribute: true
 attribute :secontext, kind_of: String
 attribute :file_type, kind_of: String, default: 'a', equal_to: %w(a f d c b s l p)
+attribute :relabel, kind_of: [TrueClass, FalseClass], default: true, equal_to: [true,false]
